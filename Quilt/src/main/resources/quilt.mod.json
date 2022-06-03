@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "com.matyrobbrt",
+    "id": "${modid}",
+    "version": "${version}",
+    "intermediate_mappings": "net.fabricmc:intermediary",
+
+    "name": "Mob Capturing Tool",
+    "description": "A Minecraft mod adding a mob capturing tool.",
+    "authors": [
+      "Matyrobbrt"
+    ],
+    "contact": {
+      "homepage": "https://github.com/Matyrobbrt/MobCapturingTool",
+      "sources": "https://github.com/Matyrobbrt/MobCapturingTool"
+    },
+
+    "license": "MIT",
+    "icon": "mobcapturingtool.png",
+
+    "environment": "*",
+    "entrypoints": {
+      "init": "com.matyrobbrt.mobcapturingtool.MobCapturingTool",
+      "client_init": "com.matyrobbrt.mobcapturingtool.MCTClient"
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "version": "*"
+      },
+      {
+        "id": "quilted_fabric_api",
+        "version": "*"
+      },
+      {
+        "id": "minecraft",
+        "version": "1.18.2"
+      },
+      {
+        "id": "java",
+        "version": ">=17"
+      }
+    ]
+  },
+  "mixin": [
+  ]
+}
