@@ -1,4 +1,7 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
+    id 'net.darkhax.curseforgegradle' version '1.0.11'
     id 'com.matyrobbrt.mc.registrationutils' version "$reg_version"
 }
 
@@ -9,6 +12,42 @@ registrationUtils {
         Quilt {}
         Forge {}
         Common {}
+    }
+}
+
+class ProjectInfo {
+    String name
+    String jarTask
+    ProjectInfo(String name, String jarTask) {
+        this.name = name
+        this.jarTask = jarTask
+    }
+}
+
+static ProjectInfo info(String name, String jarTask = 'jar') {
+    return new ProjectInfo(name, jarTask);
+}
+
+final var project2Loader = Map.of(
+        findProject(':Forge'), info('Forge'),
+        findProject(':Fabric'), info('Fabric', 'remapJar'),
+        findProject(':Quilt'), info('Quilt', 'remapJar')
+)
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    it.apiToken = findProperty('curseforgeKey')
+    it.group = 'publishing'
+    it.disableVersionDetection()
+
+    var projectId = findProperty('curseforge_project')
+    project2Loader.forEach { proj, loader ->
+        var modFile = it.upload(projectId, proj.tasks.getByName(loader.getJarTask()))
+        modFile.changelog = rootProject.file('changelog.txt')
+        modFile.releaseType = findProperty('release_type')
+        modFile.displayName = "$mod_name-${loader.getName()}-$minecraft_version-$version" as String
+        modFile.addJavaVersion 'Java 17'
+        modFile.addModLoader loader.getName()
+        modFile.addGameVersion "$minecraft_version"
     }
 }
 
@@ -56,7 +95,6 @@ subprojects {
             url 'https://maven.quiltmc.org/repository/release/'
         }
     }
-    
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'

@@ -110,7 +110,7 @@ public class CapturingToolItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         final var entity = getEntityType(stack);
         if (entity != null) {
             final var entityTag = stack.getOrCreateTagElement(CAPTURED_ENTITY_TAG);
