@@ -3,6 +3,8 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 plugins {
     id 'net.darkhax.curseforgegradle' version '1.0.11'
     id 'com.matyrobbrt.mc.registrationutils' version "$reg_version"
+    id 'com.modrinth.minotaur' version "2.+" apply false
+    id 'maven-publish'
 }
 
 registrationUtils {
@@ -36,7 +38,7 @@ final var project2Loader = Map.of(
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     it.apiToken = findProperty('curseforgeKey')
-    it.group = 'publishing'
+    it.group = 'publish-all'
     it.disableVersionDetection()
 
     var projectId = findProperty('curseforge_project')
@@ -51,13 +53,20 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     }
 }
 
+tasks.register('publishModrinth') {
+    it.group = 'publish-all'
+    it.dependsOn(getAllprojects().stream()
+            .filter(pr -> pr.tasks.contains('modrinth'))
+            .map(pr -> pr.tasks.getByName('modrinth')))
+}
+
 subprojects {
     apply plugin: 'java'
-    
+
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
-        
+
     jar {
         manifest {
             attributes([
@@ -75,7 +84,7 @@ subprojects {
             ])
         }
     }
-    
+
     repositories {
         mavenCentral()
         maven {
@@ -106,5 +115,22 @@ subprojects {
     // other mod developers.
     tasks.withType(GenerateModuleMetadata) {
         enabled = false
+    }
+
+
+    if (project.name != 'Common') {
+        apply plugin: 'com.modrinth.minotaur'
+        afterEvaluate {
+            modrinth {
+                final var info = project2Loader.get(project)
+                token = findProperty('modrinthToken')
+                projectId = "$modrinth_project"
+                versionNumber = "$version-${info.getName().toLowerCase()}"
+                versionType = "$release_type"
+                gameVersions = ["$minecraft_version"]
+                loaders = [info.getName().toLowerCase()]
+                uploadFile = tasks.getByName(info.getJarTask())
+            }
+        }
     }
 }
