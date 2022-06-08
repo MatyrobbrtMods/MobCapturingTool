@@ -1,7 +1,8 @@
 package com.matyrobbrt.mobcapturingtool.util;
 
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +16,7 @@ public class Constants {
 
 	public static final TagKey<EntityType<?>> BLACKLISTED_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(MOD_ID, "blacklisted"));
 
-	public static TranslatableComponent getTranslation(String type, Object... args) {
-		return new TranslatableComponent("tooltip." + MOD_ID + "." + type, args);
+	public static MutableComponent getTranslation(String type, Object... args) {
+		return Component.translatable("tooltip." + MOD_ID + "." + type, args);
 	}
 }

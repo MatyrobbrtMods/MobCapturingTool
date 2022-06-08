@@ -8,12 +8,9 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -72,7 +69,7 @@ public class CapturingToolItem extends Item {
             if (player != null) {
                 final var regName = EntityType.getKey(target.getType()).toString();
                 player.displayClientMessage(Constants.getTranslation("blacklisted",
-                        new TextComponent(regName).withStyle(ChatFormatting.GOLD)), true);
+                        Component.literal(regName).withStyle(ChatFormatting.GOLD)), true);
             }
             return false;
         }
@@ -114,9 +111,9 @@ public class CapturingToolItem extends Item {
         final var entity = getEntityType(stack);
         if (entity != null) {
             final var entityTag = stack.getOrCreateTagElement(CAPTURED_ENTITY_TAG);
-            tooltipComponents.add(Constants.getTranslation("captured_entity", new TextComponent(Registry.ENTITY_TYPE.getKey(entity).toString())
+            tooltipComponents.add(Constants.getTranslation("captured_entity", Component.literal(Registry.ENTITY_TYPE.getKey(entity).toString())
                     .withStyle(ChatFormatting.AQUA)));
-            tooltipComponents.add(Constants.getTranslation("captured_entity.health", new TextComponent(String.valueOf(entityTag.getDouble("Health")))
+            tooltipComponents.add(Constants.getTranslation("captured_entity.health", Component.literal(String.valueOf(entityTag.getDouble("Health")))
                     .withStyle(ChatFormatting.AQUA)));
         }
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
@@ -126,8 +123,8 @@ public class CapturingToolItem extends Item {
     public Component getName(ItemStack stack) {
         final var entity = getEntityType(stack);
         if (entity != null) {
-            final var eName = new TranslatableComponent(entity.getDescriptionId());
-            return new TranslatableComponent(super.getDescriptionId(stack))
+            final var eName = Component.translatable(entity.getDescriptionId());
+            return Component.translatable(super.getDescriptionId(stack))
                     .append(" (")
                     .append(eName)
                     .append(")");

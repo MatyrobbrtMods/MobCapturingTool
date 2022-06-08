@@ -11,7 +11,7 @@ registrationUtils {
     group 'com.matyrobbrt.mobcapturingtool.reg'
     projects {
         Fabric {}
-        Quilt {}
+        // Quilt {}
         Forge {}
         Common {}
     }
@@ -32,8 +32,8 @@ static ProjectInfo info(String name, String jarTask = 'jar') {
 
 final var project2Loader = Map.of(
         findProject(':Forge'), info('Forge'),
-        findProject(':Fabric'), info('Fabric', 'remapJar'),
-        findProject(':Quilt'), info('Quilt', 'remapJar')
+        findProject(':Fabric'), info('Fabric', 'remapJar')
+//        findProject(':Quilt'), info('Quilt', 'remapJar')
 )
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
@@ -43,21 +43,24 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 
     var projectId = findProperty('curseforge_project')
     project2Loader.forEach { proj, loader ->
-        var modFile = it.upload(projectId, proj.tasks.getByName(loader.getJarTask()))
+	    var tsk = proj.tasks.getByName(loader.getJarTask())
+        var modFile = it.upload(projectId, tsk)
         modFile.changelog = rootProject.file('changelog.txt')
         modFile.releaseType = findProperty('release_type')
         modFile.displayName = "$mod_name-${loader.getName()}-$minecraft_version-$version" as String
         modFile.addJavaVersion 'Java 17'
         modFile.addModLoader loader.getName()
         modFile.addGameVersion "$minecraft_version"
+        dependsOn(tsk)
     }
 }
 
 tasks.register('publishModrinth') {
     it.group = 'publish-all'
-    it.dependsOn(getAllprojects().stream()
+    /* getAllprojects().stream()
             .filter(pr -> pr.tasks.contains('modrinth'))
-            .map(pr -> pr.tasks.getByName('modrinth')))
+            .map(pr -> pr.tasks.getByName('modrinth'))
+            .forEach(it::dependsOn) */
 }
 
 subprojects {
@@ -118,7 +121,7 @@ subprojects {
     }
 
 
-    if (project.name != 'Common') {
+    if (project.name != 'Common' && project.name != 'Quilt' /* TODO fix when we can publish quilt version */) {
         apply plugin: 'com.modrinth.minotaur'
         afterEvaluate {
             modrinth {
