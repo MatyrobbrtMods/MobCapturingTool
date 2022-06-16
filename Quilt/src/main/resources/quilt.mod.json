@@ -44,5 +44,6 @@
     ]
   },
   "mixin": [
+    "mobcapturingtool.mixins.json"
   ]
 }

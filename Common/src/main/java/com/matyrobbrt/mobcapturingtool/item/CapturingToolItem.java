@@ -38,6 +38,9 @@ import java.util.function.BooleanSupplier;
 public class CapturingToolItem extends Item {
     public static final String CAPTURED_ENTITY_TAG = "CapturedEntity";
     public static final String ENTITY_TYPE_TAG = "EntityType";
+    public static final List<String> TAGS_TO_REMOVE = List.of(
+            "SleepingX", "SleepingY", "SleepingZ" // We need to remove sleeping tags because they case issues
+    );
 
     public CapturingToolItem(Properties properties) {
         super(properties);
@@ -56,7 +59,7 @@ public class CapturingToolItem extends Item {
             return InteractionResult.FAIL;
         player.swing(usedHand);
         player.setItemInHand(usedHand, stack);
-        return super.interactLivingEntity(stack, player, interactionTarget, usedHand);
+        return InteractionResult.SUCCESS;
     }
 
     public static boolean capture(ItemStack stack, LivingEntity target) {
@@ -79,6 +82,7 @@ public class CapturingToolItem extends Item {
         final var nbt = new CompoundTag();
         nbt.putString(ENTITY_TYPE_TAG, EntityType.getKey(target.getType()).toString());
         target.saveWithoutId(nbt);
+        TAGS_TO_REMOVE.forEach(nbt::remove);
         stack.getOrCreateTag().put(CAPTURED_ENTITY_TAG, nbt);
         target.remove(Entity.RemovalReason.KILLED);
         return true;

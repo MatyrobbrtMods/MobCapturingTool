@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.matyrobbrt.mobcapturingtool.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinPlayer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "mobcapturingtool.refmap.json"
+}

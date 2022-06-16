@@ -56,7 +56,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 tasks.register('publishModrinth') {
     it.group = 'publish-all'
     it.dependsOn(getAllprojects().stream()
-            .filter(pr -> pr.tasks.contains('modrinth'))
+            .filter(pr -> pr.tasks.stream().anyMatch(t -> t.name == 'modrinth'))
             .map(pr -> pr.tasks.getByName('modrinth')))
 }
 
