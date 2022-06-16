@@ -26,6 +26,7 @@
       ]
     },
     "mixins": [
+      "mobcapturingtool.mixins.json"
     ],
   
     "depends": {

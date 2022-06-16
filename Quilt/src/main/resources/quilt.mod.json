@@ -35,7 +35,7 @@
       },
       {
         "id": "minecraft",
-        "version": "1.18.2"
+        "version": "1.19"
       },
       {
         "id": "java",
@@ -44,5 +44,6 @@
     ]
   },
   "mixin": [
+    "mobcapturingtool.mixins.json"
   ]
 }

@@ -26,5 +26,4 @@ pluginManagement {
 }
 
 rootProject.name = 'MobCapturingTool'
-include('Common', 'Fabric', 'Forge')
-// TODO quilt will need fixing later
+include('Common', 'Fabric', 'Forge', 'Quilt')

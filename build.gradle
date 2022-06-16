@@ -11,7 +11,7 @@ registrationUtils {
     group 'com.matyrobbrt.mobcapturingtool.reg'
     projects {
         Fabric {}
-        // Quilt {}
+        Quilt {}
         Forge {}
         Common {}
     }
@@ -32,8 +32,8 @@ static ProjectInfo info(String name, String jarTask = 'jar') {
 
 final var project2Loader = Map.of(
         findProject(':Forge'), info('Forge'),
-        findProject(':Fabric'), info('Fabric', 'remapJar')
-//        findProject(':Quilt'), info('Quilt', 'remapJar')
+        findProject(':Fabric'), info('Fabric', 'remapJar'),
+        findProject(':Quilt'), info('Quilt', 'remapJar')
 )
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
@@ -57,10 +57,10 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 
 tasks.register('publishModrinth') {
     it.group = 'publish-all'
-    /* getAllprojects().stream()
-            .filter(pr -> pr.tasks.contains('modrinth'))
+    getAllprojects().stream()
+            .filter(pr -> pr.tasks.stream().anyMatch(t -> t.name == 'modrinth'))
             .map(pr -> pr.tasks.getByName('modrinth'))
-            .forEach(it::dependsOn) */
+            .forEach(it::dependsOn)
 }
 
 subprojects {
@@ -121,14 +121,14 @@ subprojects {
     }
 
 
-    if (project.name != 'Common' && project.name != 'Quilt' /* TODO fix when we can publish quilt version */) {
+    if (project.name != 'Common') {
         apply plugin: 'com.modrinth.minotaur'
         afterEvaluate {
             modrinth {
                 final var info = project2Loader.get(project)
                 token = findProperty('modrinthToken')
                 projectId = "$modrinth_project"
-                versionNumber = "$version-${info.getName().toLowerCase()}"
+                versionNumber "${project.version}-${info.getName().toLowerCase()}"
                 versionType = "$release_type"
                 gameVersions = ["$minecraft_version"]
                 loaders = [info.getName().toLowerCase()]

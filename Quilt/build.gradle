@@ -24,7 +24,8 @@ dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings loom.layered() {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
+		// TODO we need to fix this once parchment is out
+		parchment("org.parchmentmc.data:parchment-1.18.2:${parchment_version}@zip")
 	}
 	modImplementation "org.quiltmc:quilt-loader:${quilt_loader_version}"
 
@@ -51,6 +52,9 @@ loom {
 			ideConfigGenerated(true)
 			runDir("run")
 		}
+	}
+	mixin {
+		defaultRefmapName = 'mobcapturingtool.refmap.json'
 	}
 }
 

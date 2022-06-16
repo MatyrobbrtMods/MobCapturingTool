@@ -36,6 +36,9 @@ loom {
             runDir("run")
         }
     }
+    mixin {
+        defaultRefmapName = 'mobcapturingtool.refmap.json'
+    }
 }
 
 def expandProps = [
