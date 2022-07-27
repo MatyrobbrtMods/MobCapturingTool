@@ -18,7 +18,7 @@ public class MobCapturingTool {
     }
 
     private void onEntityInteract(final PlayerInteractEvent.EntityInteract event) {
-        final var res = MCTInit.handleEntityInteraction(event.getPlayer(), event.getTarget(), event.getHand());
+        final var res = MCTInit.handleEntityInteraction(event.getEntity(), event.getTarget(), event.getHand());
         if (res != null) {
             event.setCancellationResult(res);
             event.setCanceled(true);

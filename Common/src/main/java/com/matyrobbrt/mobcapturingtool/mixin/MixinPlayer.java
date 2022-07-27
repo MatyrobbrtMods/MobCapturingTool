@@ -25,6 +25,7 @@ public abstract class MixinPlayer extends LivingEntity {
             method = "Lnet/minecraft/world/entity/player/Player;interactOn(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;",
             cancellable = true
     )
+    @SuppressWarnings({"ConstantConditions", "unused"})
     private void mobcapturingtool$handleInteraction(Entity entityToInteractOn, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         final var res = MCTInit.handleEntityInteraction((Player) (Object) this, entityToInteractOn, hand);
         if (res != null) {

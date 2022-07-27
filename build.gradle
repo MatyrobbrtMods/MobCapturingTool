@@ -128,7 +128,7 @@ subprojects {
                 final var info = project2Loader.get(project)
                 token = findProperty('modrinthToken')
                 projectId = "$modrinth_project"
-                versionNumber "${project.version}-${info.getName().toLowerCase()}"
+                // versionNumber "${project.version}-${info.getName().toLowerCase()}"
                 versionType = "$release_type"
                 gameVersions = ["$minecraft_version"]
                 loaders = [info.getName().toLowerCase()]

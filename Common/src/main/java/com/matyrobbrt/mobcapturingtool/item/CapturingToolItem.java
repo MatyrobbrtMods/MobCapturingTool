@@ -146,6 +146,7 @@ public class CapturingToolItem extends Item {
         return null;
     }
 
+    @SuppressWarnings("ClassCanBeRecord")
     public static final class DispenseBehaviour implements DispenseItemBehavior {
 
         private final BooleanSupplier condition;
@@ -172,6 +173,7 @@ public class CapturingToolItem extends Item {
             } else {
                 List<LivingEntity> list = source.getLevel().getEntitiesOfClass(LivingEntity.class,
                         new AABB(targetPos), (livingEntity) -> livingEntity.isAlive() && !(livingEntity instanceof Player));
+                //noinspection ResultOfMethodCallIgnored
                 list.stream().anyMatch(en -> capture(stack, en));
             }
 
