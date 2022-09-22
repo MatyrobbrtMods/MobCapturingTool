@@ -27,7 +27,7 @@ class ProjectInfo {
 }
 
 static ProjectInfo info(String name, String jarTask = 'jar') {
-    return new ProjectInfo(name, jarTask);
+    return new ProjectInfo(name, jarTask)
 }
 
 final var project2Loader = Map.of(
@@ -44,6 +44,24 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     var projectId = findProperty('curseforge_project')
     project2Loader.forEach { proj, loader ->
 	    var tsk = proj.tasks.getByName(loader.getJarTask())
+        var modFile = it.upload(projectId, tsk)
+        modFile.changelog = rootProject.file('changelog.txt')
+        modFile.releaseType = findProperty('release_type')
+        modFile.displayName = "$mod_name-${loader.getName()}-$minecraft_version-$version" as String
+        modFile.addJavaVersion 'Java 17'
+        modFile.addModLoader loader.getName()
+        modFile.addGameVersion "$minecraft_version"
+        dependsOn(tsk)
+    }
+}
+project2Loader.forEach { proj, loader ->
+    tasks.register("publish${loader.name}CurseForge", TaskPublishCurseForge) {
+        it.apiToken = findProperty('curseforgeKey')
+        it.group = 'publishing'
+        it.disableVersionDetection()
+
+        var projectId = findProperty('curseforge_project')
+        var tsk = proj.tasks.getByName(loader.getJarTask())
         var modFile = it.upload(projectId, tsk)
         modFile.changelog = rootProject.file('changelog.txt')
         modFile.releaseType = findProperty('release_type')

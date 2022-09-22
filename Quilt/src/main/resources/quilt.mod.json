@@ -35,7 +35,7 @@
       },
       {
         "id": "minecraft",
-        "version": "1.19"
+        "version": ">=1.19"
       },
       {
         "id": "java",
