@@ -1,8 +1,12 @@
 package com.matyrobbrt.mobcapturingtool;
 
+import com.matyrobbrt.mobcapturingtool.item.MCTItems;
 import com.matyrobbrt.mobcapturingtool.util.Constants;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -12,7 +16,11 @@ public class MobCapturingTool {
     
     public MobCapturingTool() {
         MCTInit.modInit();
-        FMLJavaModLoadingContext.get().getModEventBus().addListener((final FMLCommonSetupEvent event) -> MCTInit.commonSetup());
+
+        final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modBus.addListener((final FMLCommonSetupEvent event) -> MCTInit.commonSetup());
+        modBus.addListener((final CreativeModeTabEvent.BuildContents event) -> event.register(CreativeModeTabs.TOOLS_AND_UTILITIES,
+                (flags, acceptor, op) -> acceptor.accept(MCTItems.CAPTURING_TOOL.get())));
 
         MinecraftForge.EVENT_BUS.addListener(this::onEntityInteract);
     }
@@ -24,5 +32,4 @@ public class MobCapturingTool {
             event.setCanceled(true);
         }
     }
-    
 }

@@ -1,9 +1,9 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "mobcapturingtool:items/mob_capturing_tool",
-    "layer1": "mobcapturingtool:items/mob_capturing_tool_circle",
-    "layer2": "mobcapturingtool:items/mob_capturing_tool_dot"
+    "layer0": "mobcapturingtool:item/mob_capturing_tool",
+    "layer1": "mobcapturingtool:item/mob_capturing_tool_circle",
+    "layer2": "mobcapturingtool:item/mob_capturing_tool_dot"
   },
   "display": {
     "ground": {

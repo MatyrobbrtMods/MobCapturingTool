@@ -6,8 +6,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -104,7 +104,7 @@ public class CapturingToolItem extends Item {
     }
 
     public static boolean isBlacklisted(EntityType<?> entity) {
-        final var regName = Registry.ENTITY_TYPE.getKey(entity).toString();
+        final var regName = BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString();
         if (Config.getInstance().blacklistedEntities.contains(regName))
             return true;
         return entity.is(Constants.BLACKLISTED_TAG);
@@ -115,7 +115,7 @@ public class CapturingToolItem extends Item {
         final var entity = getEntityType(stack);
         if (entity != null) {
             final var entityTag = stack.getOrCreateTagElement(CAPTURED_ENTITY_TAG);
-            tooltipComponents.add(Constants.getTranslation("captured_entity", Component.literal(Registry.ENTITY_TYPE.getKey(entity).toString())
+            tooltipComponents.add(Constants.getTranslation("captured_entity", Component.literal(BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString())
                     .withStyle(ChatFormatting.AQUA)));
             tooltipComponents.add(Constants.getTranslation("captured_entity.health", Component.literal(String.valueOf(entityTag.getDouble("Health")))
                     .withStyle(ChatFormatting.AQUA)));
@@ -141,7 +141,7 @@ public class CapturingToolItem extends Item {
         if (stack.getOrCreateTag().contains(CAPTURED_ENTITY_TAG, Tag.TAG_COMPOUND)) {
             final var typeStr = stack.getOrCreateTagElement(CAPTURED_ENTITY_TAG).getString(ENTITY_TYPE_TAG);
             final var rl = new ResourceLocation(typeStr);
-            return Registry.ENTITY_TYPE.getOptional(rl).orElse(null);
+            return BuiltInRegistries.ENTITY_TYPE.getOptional(rl).orElse(null);
         }
         return null;
     }

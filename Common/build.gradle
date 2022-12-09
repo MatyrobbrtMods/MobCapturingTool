@@ -63,5 +63,6 @@ publishing {
     }
 }
 
+prepareRemapJar.enabled = false
 remapJar.enabled = false
 remapSourcesJar.enabled = false
