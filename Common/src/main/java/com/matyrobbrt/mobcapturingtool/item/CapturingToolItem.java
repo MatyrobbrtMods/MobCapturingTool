@@ -3,6 +3,7 @@ package com.matyrobbrt.mobcapturingtool.item;
 import com.matyrobbrt.mobcapturingtool.util.Config;
 import com.matyrobbrt.mobcapturingtool.util.Constants;
 import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
@@ -29,9 +30,11 @@ import net.minecraft.world.phys.AABB;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CapturingToolItem extends Item {
     public static final String CAPTURED_ENTITY_TAG = "CapturedEntity";
     public static final String ENTITY_TYPE_TAG = "EntityType";
@@ -68,7 +71,7 @@ public class CapturingToolItem extends Item {
             return false;
         if (target instanceof Player || !target.canChangeDimensions() || !target.isAlive())
             return false;
-        if (isBlacklisted(target.getType())) {
+        if (isBlacklisted(stack, target, player)) {
             if (player != null) {
                 final var regName = EntityType.getKey(target.getType()).toString();
                 player.displayClientMessage(Constants.getTranslation("blacklisted",
@@ -103,11 +106,13 @@ public class CapturingToolItem extends Item {
         return false;
     }
 
-    public static boolean isBlacklisted(EntityType<?> entity) {
-        final var regName = BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString();
-        if (Config.getInstance().blacklistedEntities.contains(regName))
+    public static boolean isBlacklisted(ItemStack stack, LivingEntity target, @Nullable Player player) {
+        final var regName = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
+        if (Config.getInstance().blacklistedEntities.contains(regName.toString()))
             return true;
-        return entity.is(Constants.BLACKLISTED_TAG);
+        return !Objects.requireNonNullElse(CapturingPredicates.PREDICATES
+                .get(target.getLevel().registryAccess()).get(regName), CapturingPredicates.CHECK_TAG)
+                .canPickup(stack, target, player);
     }
 
     @Override

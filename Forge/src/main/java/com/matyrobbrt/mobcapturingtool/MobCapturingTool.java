@@ -19,8 +19,11 @@ public class MobCapturingTool {
 
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((final FMLCommonSetupEvent event) -> MCTInit.commonSetup());
-        modBus.addListener((final CreativeModeTabEvent.BuildContents event) -> event.register(CreativeModeTabs.TOOLS_AND_UTILITIES,
-                (flags, acceptor, op) -> acceptor.accept(MCTItems.CAPTURING_TOOL.get())));
+        modBus.addListener((final CreativeModeTabEvent.BuildContents event) -> {
+            if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+                event.accept(MCTItems.CAPTURING_TOOL.get());
+            }
+        });
 
         MinecraftForge.EVENT_BUS.addListener(this::onEntityInteract);
     }

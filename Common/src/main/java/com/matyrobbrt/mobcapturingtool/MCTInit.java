@@ -1,5 +1,6 @@
 package com.matyrobbrt.mobcapturingtool;
 
+import com.matyrobbrt.mobcapturingtool.item.CapturingPredicates;
 import com.matyrobbrt.mobcapturingtool.item.CapturingToolItem;
 import com.matyrobbrt.mobcapturingtool.item.MCTItems;
 import com.matyrobbrt.mobcapturingtool.util.Config;
@@ -21,7 +22,9 @@ public class MCTInit {
 
     public static void modInit() {
         MCTItems.loadClass();
+        CapturingPredicates.loadClass();
         Config.load();
+
         try {
             FileWatcher.defaultInstance().addWatch(Config.getConfigPath(), () -> {
                 if (Config.load())

@@ -1,1 +1,2 @@
-- Port to 1.19.3
+- Port to Forge 44.1.0
+- Add DP registry to allow custom pickup predicates
