@@ -11,7 +11,6 @@ registrationUtils {
     group 'com.matyrobbrt.mobcapturingtool.reg'
     projects {
         Fabric {}
-        Quilt {}
         Forge {}
         Common {}
     }
@@ -32,8 +31,7 @@ static ProjectInfo info(String name, String jarTask = 'jar') {
 
 final var project2Loader = Map.of(
         findProject(':Forge'), info('Forge'),
-        findProject(':Fabric'), info('Fabric', 'remapJar'),
-        findProject(':Quilt'), info('Quilt', 'remapJar')
+        findProject(':Fabric'), info('Fabric', 'remapJar')
 )
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {

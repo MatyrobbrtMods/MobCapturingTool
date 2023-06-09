@@ -67,7 +67,7 @@ public class CapturingToolItem extends Item {
     }
 
     public static boolean capture(ItemStack stack, LivingEntity target, @Nullable Player player) {
-        if (target.getLevel().isClientSide || getEntityType(stack) != null)
+        if (target.level().isClientSide || getEntityType(stack) != null)
             return false;
         if (target instanceof Player || !target.canChangeDimensions() || !target.isAlive())
             return false;
@@ -111,7 +111,7 @@ public class CapturingToolItem extends Item {
         if (Config.getInstance().blacklistedEntities.contains(regName.toString()))
             return true;
         return !Objects.requireNonNullElse(CapturingPredicates.PREDICATES
-                .get(target.getLevel().registryAccess()).get(regName), CapturingPredicates.CHECK_TAG)
+                .get(target.level().registryAccess()).get(regName), CapturingPredicates.CHECK_TAG)
                 .canPickup(stack, target, player);
     }
 

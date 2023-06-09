@@ -26,4 +26,4 @@ pluginManagement {
 }
 
 rootProject.name = 'MobCapturingTool'
-include('Common', 'Fabric', 'Forge', 'Quilt')
+include('Common', 'Fabric', 'Forge') // Quilt is currently not included because maintaining it is too much work when QFAPI exists

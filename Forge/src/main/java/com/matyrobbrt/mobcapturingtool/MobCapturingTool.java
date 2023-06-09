@@ -4,7 +4,7 @@ import com.matyrobbrt.mobcapturingtool.item.MCTItems;
 import com.matyrobbrt.mobcapturingtool.util.Constants;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -19,8 +19,8 @@ public class MobCapturingTool {
 
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((final FMLCommonSetupEvent event) -> MCTInit.commonSetup());
-        modBus.addListener((final CreativeModeTabEvent.BuildContents event) -> {
-            if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        modBus.addListener((final BuildCreativeModeTabContentsEvent event) -> {
+            if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 event.accept(MCTItems.CAPTURING_TOOL.get());
             }
         });

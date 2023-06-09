@@ -1,2 +1,2 @@
-- Port to Forge 44.1.0
-- Add DP registry to allow custom pickup predicates
+- Port to 1.20
+- Remove Quilt module in Favour of using Fabric with QFAPI
