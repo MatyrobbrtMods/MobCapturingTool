@@ -1,4 +1,5 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import com.matyrobbrt.mobcapturingtool.gradle.*
 
 plugins {
     id 'net.darkhax.curseforgegradle' version '1.0.11'
@@ -33,6 +34,17 @@ final var project2Loader = Map.of(
         findProject(':Forge'), info('Forge'),
         findProject(':Fabric'), info('Fabric', 'remapJar')
 )
+
+project.tasks.register('multiloaderJar', MultiLoaderJarTask) {
+    group = 'build'
+    forgeJar.set(project.project(':Forge').tasks.named('jar', Jar).flatMap { it.archiveFile })
+    fabricJar.set(project.project(':Fabric').tasks.named('remapJar', org.gradle.jvm.tasks.Jar).flatMap { it.archiveFile })
+    archiveGroup.set('com.matyrobbrt.mobcapturingtool')
+    archiveIdentifier.set('mobcapturingtool')
+    archiveVersion.set(project.version.toString())
+    manifest.mainAttributes.putValue('FMLModType', 'GAMELIBRARY')
+    manifest.mainAttributes.putValue('Implementation-Version', project.version.toString())
+}
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     it.apiToken = findProperty('curseforgeKey')
