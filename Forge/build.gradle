@@ -20,7 +20,6 @@ apply plugin: 'org.spongepowered.mixin'
 archivesBaseName = "${mod_name}-forge-${minecraft_version}"
 
 minecraft {
-    // TODO fix when parchment is out
     mappings channel: 'official', version: "${minecraft_version}"
     
     if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {

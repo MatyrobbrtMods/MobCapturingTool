@@ -28,8 +28,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.layered() {
         officialMojangMappings()
-        // TODO fix when parchment is out
-        parchment("org.parchmentmc.data:parchment-1.18.2:${parchment_version}@zip")
+        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
     }
     //DO NOT USE IN PROJECT
     //Provides necessary stuff for project to compile
