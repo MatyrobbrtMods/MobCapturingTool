@@ -5,8 +5,8 @@ import com.matyrobbrt.mobcapturingtool.util.Constants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -166,17 +166,19 @@ public class CapturingToolItem extends Item {
                 return stack;
 
             final var tag = stack.getOrCreateTag();
-            final var facing = source.getBlockState().getValue(DispenserBlock.FACING);
-            final var targetPos = source.getPos().relative(facing);
+
+            final var facing = source.blockEntity().getBlockState().getValue(DispenserBlock.FACING);
+
+            final var targetPos = source.pos().relative(facing);
             if (tag.contains(CAPTURED_ENTITY_TAG, Tag.TAG_COMPOUND)) {
                 release(
                         targetPos,
                         facing,
-                        source.getLevel(),
+                        source.level(),
                         stack
                 );
             } else {
-                List<LivingEntity> list = source.getLevel().getEntitiesOfClass(LivingEntity.class,
+                List<LivingEntity> list = source.level().getEntitiesOfClass(LivingEntity.class,
                         new AABB(targetPos), (livingEntity) -> livingEntity.isAlive() && !(livingEntity instanceof Player));
                 //noinspection ResultOfMethodCallIgnored
                 list.stream().anyMatch(en -> capture(stack, en));

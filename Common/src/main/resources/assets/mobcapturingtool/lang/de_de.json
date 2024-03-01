@@ -1,0 +1,6 @@
+{
+  "item.mobcapturingtool.mob_capturing_tool": "Mob Capturing Tool",
+  "tooltip.mobcapturingtool.blacklisted": "Kreaturen des Typs %s sind auf der verbotenen Liste und dürfen nicht eingefangen werden.",
+  "tooltip.mobcapturingtool.captured_entity": "Kreatur: %s",
+  "tooltip.mobcapturingtool.captured_entity.health": "Gesundheit: %s"
+}
