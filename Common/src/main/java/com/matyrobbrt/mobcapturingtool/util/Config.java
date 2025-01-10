@@ -26,6 +26,9 @@ public class Config {
             "minecraft:ender_dragon"
     );
 
+    @SerializedName("blacklisted_mods")
+    public List<String> blacklistedMods = List.of();
+
     @SerializedName("enable_dispenser_behaviour")
     public boolean enableDispenserBehaviour = true;
 

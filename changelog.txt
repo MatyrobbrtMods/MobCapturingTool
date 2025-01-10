@@ -1,1 +1,1 @@
-- Fix crafting recipe not existing
+- Add option to blacklist mods too
