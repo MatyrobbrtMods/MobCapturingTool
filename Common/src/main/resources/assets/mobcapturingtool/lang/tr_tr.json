@@ -1,0 +1,7 @@
+{
+  "item.mobcapturingtool.mob_capturing_tool": "Canlı Yakalama Aleti",
+
+  "tooltip.mobcapturingtool.blacklisted": "%s türündeki varlıklar kara listede ve yakalanamazlar.",
+  "tooltip.mobcapturingtool.captured_entity": "Varlık: %s",
+  "tooltip.mobcapturingtool.captured_entity.health": "Can: %s"
+}
